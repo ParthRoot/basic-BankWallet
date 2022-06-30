@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Wallet</title>
+</head>
+
+<body>
+    <script>
+        let totalBalance = 0; //total Balance in wallet
+        let amount = 0; // amount enter by user
+
+        //check the local storage is null or not
+        if (localStorage.getItem("Balance") == null) {
+            localStorage.setItem("Balance", 0);
+        }
+
+        //perform debit operation
+        let debitAmount = (amount) => {
+            totalBalance = parseFloat(localStorage.getItem("Balance"));
+            if (totalBalance == 0 || totalBalance < parseFloat(amount)) {
+                alert("Sorry you have not sufficient balance!");
+            } else {
+                let b = totalBalance -= parseFloat(amount);
+                localStorage.setItem("Balance", b);
+            }
+        }
+
+        //perform credit operation
+        let creditAmount = (amount) => {
+            totalBalance = parseFloat(localStorage.getItem("Balance"));
+            let b = totalBalance += parseFloat(amount);
+            localStorage.setItem("Balance", b);
+        }
+
+        //check bank balance
+        let checkBalance = () => {
+            alert(`Your Current Balance is: ${parseFloat(localStorage.getItem("Balance"))}`);
+        }
+
+        //validate Amount
+        let validateAmount = (amount) => {
+            let a = /^[0-9.]+$/;
+            if (amount.match(a)) {
+                let n = parseFloat(amount);
+            } else {
+                alert("Please enter amount in number");
+            }
+        }
+
+        // operation selecting and function calling
+        while (true) {
+            let option = +prompt("Select Option 1. Debit, 2. Credit, 3.CheckBalance, 4.exit");
+            if (option == 1) {
+                amount = prompt("Enter the amount");
+                validateAmount(amount);
+                debitAmount(amount);
+            } else if (option == 2) {
+                amount = prompt("Enter the amount");
+                validateAmount(amount);
+                creditAmount(amount);
+
+            } else if (option == 3) {
+                checkBalance();
+
+            } else if (option == 4) {
+                break;
+            } else {
+                alert("Please Select Valid Option")
+            }
+        }
+    </script>
+</body>
+
+</html>
